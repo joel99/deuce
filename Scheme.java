@@ -1,5 +1,3 @@
-
-
 public class Scheme {
 
 
@@ -11,17 +9,17 @@ public class Scheme {
 		stack.push(temp);
 		temp = "";
 	    }
-	    else 
+	    else
 		String temp += s.substring(i,i+1);
 	}
 	stack.push(temp);
-	
+
     }
 
-    public int compute(String s){
-	
-	
-    }
+    public static String unload( int op, Stack<String> numbers ) {
+
+
+     }
 
 
 }

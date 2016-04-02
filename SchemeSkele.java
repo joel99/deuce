@@ -13,65 +13,66 @@
  * b/c it seems the most efficient and nodes are great.
  ******************************************************/
 
-public class Scheme {
+public class SchemeSkele {
 
-    /****************************************************** 
+    /******************************************************
      * precond:  Assumes expr is a valid Scheme (prefix) expression,
-     *           with whitespace separating all operators, parens, and 
+     *           with whitespace separating all operators, parens, and
      *           integer operands.
      * postcond: Returns the simplified value of the expression, as a String
      * eg,
      *           evaluate( "( + 4 3 )" ) -> 7
      *	         evaluate( "( + 4 ( * 2 5 ) 3 )" ) -> 17
      ******************************************************/
-    public static String evaluate( String expr ) 
+    public static String evaluate( String expr )
     {
 		Stack<String> stack = new LLStack<>();
 		String temp = "";
-		for (int i = 0; i < s.length(); i++){
-	    if (s.substring(i,i+1).equals(" ")){
+		for (int i = 0; i < expr.length(); i++){
+	    if (expr.substring(i,i+1).equals(" ")){
 		stack.push(temp);
 		temp = "";
 	    }
-	    else if (s.substring(i,i+1).equals(")")){
-			Stack<String> temp = new LLStack<>();
+	    else if (expr.substring(i,i+1).equals(")")){
+			Stack<String> tempStack = new LLStack<>();
 			while (isNumber(stack.peek()))
-				temp.push(stack.pop());
+				tempStack.push(stack.pop());
 			//Now we have an op
 			String op = stack.pop();
 			stack.pop(); //get rid of the extra open paren
-			String res;
-			if (op.equals("+")) res = unload(1, temp);
-			else if (op.equals("-")) res = unload(2, temp);
-			else if (op.equals("*")) res = unload(3, temp);
+			String res = "";
+			if (op.equals("+")) res = unload(1, tempStack);
+			else if (op.equals("-")) res = unload(2, tempStack);
+			else if (op.equals("*")) res = unload(3, tempStack);
 			stack.push(res);
 		}
 		else
-			String temp += s.substring(i,i+1);
+			temp += expr.substring(i,i+1);
 		}
-	stack.push(temp);
+	//stack.push(temp);
+  return stack.pop();
     }//end evaluate()
 
 
-    /****************************************************** 
+    /******************************************************
      * precond:  Assumes top of input stack is a number.
      * postcond: Performs op on nums until closing paren is seen thru peek().
      *           Returns the result of operating on sequence of operands.
      *           Ops: + is 1, - is 2, * is 3
      ******************************************************/
-    public static String unload( int op, Stack<String> numbers ) 
+    public static String unload( int op, Stack<String> numbers )
     {int ret = 0;
 	if (op == 3) ret = 1;
 	while (isNumber(numbers.peek()))
-		if (op == 1) ret += numbers.pop();
-		else if (op == 2) ret -= numbers.pop();
-		else ret *= numbers.pop();
+		if (op == 1) ret += Integer.parseInt(numbers.pop());
+		else if (op == 2) ret -= Integer.parseInt(numbers.pop());
+		else ret *= Integer.parseInt(numbers.pop());
 	//should stop once it's closing parens.
 	return Integer.toString(ret);
     }//end unload()
 
 
-    
+
     //optional check-to-see-if-its-a-number helper fxn:
     public static boolean isNumber( String s ) {
         try {
@@ -82,13 +83,13 @@ public class Scheme {
 	    return false;
 	}
     }
-    
+
 
 
     //main method for testing
     public static void main( String[] args ) {
 
-	/*v~~~~~~~~~~~~~~MAKE MORE~~~~~~~~~~~~~~v
+	//v~~~~~~~~~~~~~~MAKE MORE~~~~~~~~~~~~~~v
 	String zoo1 = "( + 4 3 )";
 	System.out.println(zoo1);
 	System.out.println("zoo1 eval'd: " + evaluate(zoo1) );
@@ -108,7 +109,7 @@ public class Scheme {
 	System.out.println(zoo4);
 	System.out.println("zoo4 eval'd: " + evaluate(zoo4) );
 	//...-4
-          ^~~~~~~~~~~~~~~~AWESOME~~~~~~~~~~~~~~~^*/
+    //      ^~~~~~~~~~~~~~~~AWESOME~~~~~~~~~~~~~~~^*/
     }//main
 
 }//end class Scheme
