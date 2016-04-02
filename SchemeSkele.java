@@ -33,7 +33,7 @@ public class SchemeSkele {
 		stack.push(temp);
     //System.out.println("TEMP " + temp);
     if (stack.peek().equals("")) stack.pop();
-  //  System.out.println("STACK.PEEK()= " + stack.peek());
+    System.out.println("STACK.PEEK()= " + stack.peek());
 		temp = "";
 	    }
 	    else if (expr.substring(i,i+1).equals(")")){
@@ -49,7 +49,7 @@ public class SchemeSkele {
 			else if (op.equals("-")) res = unload(2, tempStack);
 			else if (op.equals("*")) res = unload(3, tempStack);
 			stack.push(res);
-    //  System.out.println("STACK.PEEK()= " + stack.peek());
+      System.out.println("STACK.PEEK()= " + stack.peek());
 		}
 		else
 			temp += expr.substring(i,i+1);
@@ -66,12 +66,11 @@ public class SchemeSkele {
      *           Ops: + is 1, - is 2, * is 3
      ******************************************************/
     public static String unload( int op, Stack<String> numbers )
-    {int ret = 0;
-	if (op == 3) ret = 1;
-	while (isNumber(numbers.peek()))
-		if (op == 1) ret += Integer.parseInt(numbers.pop());
+    {int ret = Integer.parseInt(numbers.pop());
+    while (isNumber(numbers.peek()))
+		{if (op == 1) ret += Integer.parseInt(numbers.pop());
 		else if (op == 2) ret -= Integer.parseInt(numbers.pop());
-		else ret *= Integer.parseInt(numbers.pop());
+		else ret *= Integer.parseInt(numbers.pop());}
 	//should stop once it's closing parens.
 	return Integer.toString(ret);
     }//end unload()
