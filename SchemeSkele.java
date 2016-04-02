@@ -28,6 +28,7 @@ public class SchemeSkele {
     {
 		Stack<String> stack = new LLStack<>();
 		String temp = "";
+    System.out.println(expr.length + "LENGTH");
 		for (int i = 0; i < expr.length(); i++){
 	    if (expr.substring(i,i+1).equals(" ")){
 		stack.push(temp);
