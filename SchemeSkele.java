@@ -28,14 +28,17 @@ public class SchemeSkele {
     {
 		Stack<String> stack = new LLStack<>();
 		String temp = "";
-    System.out.println(expr.length + "LENGTH");
-		for (int i = 0; i < expr.length(); i++){
+    for (int i = 0; i < expr.length(); i++){
 	    if (expr.substring(i,i+1).equals(" ")){
 		stack.push(temp);
+    //System.out.println("TEMP " + temp);
+    if (stack.peek().equals("")) stack.pop();
+  //  System.out.println("STACK.PEEK()= " + stack.peek());
 		temp = "";
 	    }
 	    else if (expr.substring(i,i+1).equals(")")){
 			Stack<String> tempStack = new LLStack<>();
+
 			while (isNumber(stack.peek()))
 				tempStack.push(stack.pop());
 			//Now we have an op
@@ -46,14 +49,15 @@ public class SchemeSkele {
 			else if (op.equals("-")) res = unload(2, tempStack);
 			else if (op.equals("*")) res = unload(3, tempStack);
 			stack.push(res);
+    //  System.out.println("STACK.PEEK()= " + stack.peek());
 		}
 		else
 			temp += expr.substring(i,i+1);
-		}
+    }
+
 	//stack.push(temp);
   return stack.pop();
     }//end evaluate()
-
 
     /******************************************************
      * precond:  Assumes top of input stack is a number.
