@@ -28,34 +28,36 @@ public class SchemeSkele {
     {
 		Stack<String> stack = new LLStack<>();
 		String temp = "";
+
     for (int i = 0; i < expr.length(); i++){
-	    if (expr.substring(i,i+1).equals(" ")){
-		stack.push(temp);
-    //System.out.println("TEMP " + temp);
-    if (stack.peek().equals("")) stack.pop();
-    System.out.println("STACK.PEEK()= " + stack.peek());
-		temp = "";
-	    }
-	    else if (expr.substring(i,i+1).equals(")")){
-			Stack<String> tempStack = new LLStack<>();
 
-			while (isNumber(stack.peek()))
-				tempStack.push(stack.pop());
-			//Now we have an op
-			String op = stack.pop();
-			stack.pop(); //get rid of the extra open paren
-			String res = "";
-			if (op.equals("+")) res = unload(1, tempStack);
-			else if (op.equals("-")) res = unload(2, tempStack);
-			else if (op.equals("*")) res = unload(3, tempStack);
-			stack.push(res);
-      System.out.println("STACK.PEEK()= " + stack.peek());
-		}
-		else
-			temp += expr.substring(i,i+1);
-    }
+      //pushes openers, ops, and nums, until a closer is reached,
 
-	//stack.push(temp);
+      if (expr.substring(i,i+1).equals(" ")){
+        stack.push(temp); //push number
+        if (stack.peek().equals("")) stack.pop(); //get rid of prev ''
+    		temp = ""; //reset
+    	    }
+
+      //when a closer is reached,evaluate nested expression using unload
+
+      else if (expr.substring(i,i+1).equals(")")){
+  			Stack<String> tempStack = new LLStack<>();
+  			while (isNumber(stack.peek()))
+  				tempStack.push(stack.pop());
+  			String op = stack.pop(); //Now we have an op
+  			stack.pop(); //get rid of the extra open paren
+  			String res = "";
+  			if (op.equals("+")) res = unload(1, tempStack);
+  			else if (op.equals("-")) res = unload(2, tempStack);
+  			else if (op.equals("*")) res = unload(3, tempStack);
+  			stack.push(res);
+  		    }
+
+      // add number val to temp to be pushed
+      else
+			   temp += expr.substring(i,i+1);
+       }
   return stack.pop();
     }//end evaluate()
 
@@ -66,13 +68,16 @@ public class SchemeSkele {
      *           Ops: + is 1, - is 2, * is 3
      ******************************************************/
     public static String unload( int op, Stack<String> numbers )
-    {int ret = Integer.parseInt(numbers.pop());
-    while (isNumber(numbers.peek()))
-		{if (op == 1) ret += Integer.parseInt(numbers.pop());
-		else if (op == 2) ret -= Integer.parseInt(numbers.pop());
-		else ret *= Integer.parseInt(numbers.pop());}
-	//should stop once it's closing parens.
-	return Integer.toString(ret);
+    {
+      int ret = Integer.parseInt(numbers.pop());
+      while (isNumber(numbers.peek()))
+		    {
+          if (op == 1) ret += Integer.parseInt(numbers.pop());
+		      else if (op == 2) ret -= Integer.parseInt(numbers.pop());
+		      else ret *= Integer.parseInt(numbers.pop());
+        }
+	    //should stop once it's closing parens.
+	     return Integer.toString(ret);
     }//end unload()
 
 
