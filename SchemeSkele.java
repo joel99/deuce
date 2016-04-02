@@ -1,3 +1,5 @@
+
+
 /*****************************************************
  * class Scheme
  * Simulates a rudimentary Scheme interpreter
@@ -7,8 +9,8 @@
       2. ...
       5. Profit!
  *
- * STACK OF CHOICE: ____ by Clyde ____
- * b/c ...
+ * STACK OF CHOICE: LLStack by Team Deuce
+ * b/c it seems the most efficient and nodes are great.
  ******************************************************/
 
 public class Scheme {
@@ -24,6 +26,30 @@ public class Scheme {
      ******************************************************/
     public static String evaluate( String expr ) 
     {
+		Stack<String> stack = new LLStack<>();
+		String temp = "";
+		for (int i = 0; i < s.length(); i++){
+	    if (s.substring(i,i+1).equals(" ")){
+		stack.push(temp);
+		temp = "";
+	    }
+	    else if (s.substring(i,i+1).equals(")")){
+			Stack<String> temp = new LLStack<>();
+			while (isNumber(stack.peek()))
+				temp.push(stack.pop());
+			//Now we have an op
+			String op = stack.pop();
+			stack.pop(); //get rid of the extra open paren
+			String res;
+			if (op.equals("+")) res = unload(1, temp);
+			else if (op.equals("-")) res = unload(2, temp);
+			else if (op.equals("*")) res = unload(3, temp);
+			stack.push(res);
+		}
+		else
+			String temp += s.substring(i,i+1);
+		}
+	stack.push(temp);
     }//end evaluate()
 
 
@@ -34,11 +60,18 @@ public class Scheme {
      *           Ops: + is 1, - is 2, * is 3
      ******************************************************/
     public static String unload( int op, Stack<String> numbers ) 
-    {
+    {int ret = 0;
+	if (op == 3) ret = 1;
+	while (isNumber(numbers.peek()))
+		if (op == 1) ret += numbers.pop();
+		else if (op == 2) ret -= numbers.pop();
+		else ret *= numbers.pop();
+	//should stop once it's closing parens.
+	return Integer.toString(ret);
     }//end unload()
 
 
-    /*
+    
     //optional check-to-see-if-its-a-number helper fxn:
     public static boolean isNumber( String s ) {
         try {
@@ -49,7 +82,7 @@ public class Scheme {
 	    return false;
 	}
     }
-    */
+    
 
 
     //main method for testing
