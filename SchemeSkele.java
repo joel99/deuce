@@ -1,4 +1,7 @@
-
+//Team Deuce -- Kathy Lau and Joel Ye
+//APCS2 pd10
+//HW24 -- Schemin
+//2016 - 04 - 01
 
 /*****************************************************
  * class Scheme
